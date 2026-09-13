@@ -52,6 +52,7 @@ const io = new Server(3001, {
   cors: { origin: '*' }
 });
 
+// TODO: add the following section to the actual telemetry code
 console.log("Fake telemetry server running on port 3001");
 
 const fs = require('fs');
