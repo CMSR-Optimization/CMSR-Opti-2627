@@ -4,7 +4,7 @@ Software and embedded systems developed by the **Carnegie Mellon Solar Racing Op
 
 ## Overview
 
-This repository contains the software developed by the Optimization team for collecting sensor data from the solar boat, transmitting telemetry to onboard computing hardware, and displaying vehicle information to the driver in real time.
+This repository contains the software developed by the Optimization team for collecting sensor data from the boat, transmitting telemetry to onboard computing hardware, and displaying vehicle information to the driver in real time.
 
 The system combines **Arduino-based sensor acquisition**, **Raspberry Pi onboard computing**, a **Node.js telemetry backend**, and a **Next.js/React driver interface**.
 
@@ -42,7 +42,7 @@ The system combines **Arduino-based sensor acquisition**, **Raspberry Pi onboard
 │            │             │
 │  ┌─────────▼──────────┐  │
 │  │    Display UI      │  │
-│  │   Next.js / React   │  │
+│  │   Next.js / React  │  │
 │  └────────────────────┘  │
 └──────────────────────────┘
 ```
@@ -55,34 +55,6 @@ The system combines **Arduino-based sensor acquisition**, **Raspberry Pi onboard
 4. The Node.js telemetry bridge receives and parses the incoming data.
 5. The bridge broadcasts telemetry through Socket.io.
 6. The Next.js/React application receives the telemetry and updates the driver's dashboard.
-
-## Repository Structure
-
-```text
-CMSR-Opti-2627/
-│
-├── Arduino/
-│   ├── packet_transmit.ino
-│   ├── voltage_measure.ino
-│   ├── v_imu_temp
-│   ├── voltage sensor
-│   └── README.md
-│
-├── Raspberry Pi/
-│   ├── telemetry-bridge/
-│   │   ├── server.js
-│   │   ├── data/
-│   │   └── README.md
-│   │
-│   ├── displayui/
-│   │   ├── app/
-│   │   ├── public/
-│   │   └── README.md
-│   │
-│   └── README.md
-│
-└── README.md
-```
 
 ## Components
 
@@ -131,26 +103,13 @@ The development server runs on **port 3000**.
 
 See [`Raspberry Pi/README.md`](Raspberry%20Pi/README.md) for the complete onboard system documentation.
 
-## Technology Stack
-
-| Component               | Technology      |
-| ----------------------- | --------------- |
-| Sensor acquisition      | Arduino / C++   |
-| Onboard computer        | Raspberry Pi    |
-| Backend                 | Node.js         |
-| Serial communication    | `serialport`    |
-| Real-time communication | Socket.io       |
-| Frontend                | Next.js / React |
-| Styling                 | Tailwind CSS    |
-| Data logging            | CSV             |
-
 ## Getting Started
 
 ### Arduino
 
 Upload the appropriate `.ino` program from the `Arduino/` directory to the Arduino using the Arduino IDE.
 
-Connect the required sensors according to the hardware team's wiring configuration.
+Connect the required sensors according to the hardware wiring configuration.
 
 ### Telemetry Bridge
 
@@ -197,25 +156,3 @@ acceleration
 ```
 
 This data can later be used for performance analysis, driver comparison, and vehicle optimization.
-
-## Development Goals
-
-The Optimization team's software is being developed toward a complete onboard telemetry and data-analysis system.
-
-Planned improvements include:
-
-* Additional vehicle sensors
-* More robust telemetry packet encoding
-* Improved telemetry reliability
-* Persistent run/session management
-* Expanded data logging
-* Historical telemetry visualization
-* Lap and run comparison
-* Additional driver performance metrics
-* Automated onboard startup for race-day operation
-
-## Team
-
-**Carnegie Mellon Solar Racing — Optimization Team**
-
-This repository contains ongoing development work for the team's telemetry, data collection, and onboard visualization systems.
