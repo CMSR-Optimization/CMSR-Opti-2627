@@ -90,16 +90,20 @@ function MetricCard({ metric }) {
 }
 
 const sparkles = [];
+
 function Sparkles() {
   const rows = 20;
-  const cols = 25; 
-  if (sparkles.length == 0){
+  const cols = 25;
+
+  if (sparkles.length === 0) {
     for (let row = 0; row < rows; row++) {
       for (let col = 0; col < cols; col++) {
+        const seed = row * cols + col;
+
         sparkles.push({
-          top: (row + Math.random()) * (100 / rows),
-          left: (col + Math.random()) * (100 / cols),
-          delay: Math.random() * 3,
+          top: (row + ((seed * 37) % 100) / 100) * (100 / rows),
+          left: (col + ((seed * 73) % 100) / 100) * (100 / cols),
+          delay: ((seed * 17) % 300) / 100,
         });
       }
     }

@@ -1,73 +1,73 @@
-const { SerialPort } = require('serialport');
-const { Server } = require('socket.io');
-
-const ARDUINO_PORT = "/dev/tty.usbmodem2101";
-
-const io = new Server(3001, {
-  cors: { origin: '*' }
-});
-
-const port = new SerialPort({
-  path: ARDUINO_PORT,
-  baudRate: 9600
-});
-
-const PACKET_SIZE = 20;
-
-console.log("Listening for Arduino on " + ARDUINO_PORT + " ...");
-
-let buffer = Buffer.alloc(0);
-
-port.on('data', (chunk) => {
-  // Add newly received bytes to our buffer
-  buffer = Buffer.concat([buffer, chunk]);
-
-  // Process complete packets
-  while (buffer.length >= PACKET_SIZE) {
-    const packet = buffer.subarray(0, PACKET_SIZE);
-    buffer = buffer.subarray(PACKET_SIZE);
-
-    const telemetryData = {
-      timestamp: packet.readUInt32LE(0),
-      voltage: packet.readFloatLE(4),
-      current: packet.readFloatLE(8),
-      temperature: packet.readFloatLE(12),
-      acceleration: packet.readFloatLE(16),
-      velocity: 0
-    };
-
-    io.emit('telemetry', telemetryData);
-  }
-});
-
-port.on('error', (err) => {
-  console.error('Serial Port Error: ', err.message);
-});
-
-// FAKE TELEMETRY FOR TESTING
-
+// const { SerialPort } = require('serialport');
 // const { Server } = require('socket.io');
+
+// const ARDUINO_PORT = "/dev/tty.usbmodem2101";
 
 // const io = new Server(3001, {
 //   cors: { origin: '*' }
 // });
 
-// console.log("Fake telemetry server running on port 3001");
+// const port = new SerialPort({
+//   path: ARDUINO_PORT,
+//   baudRate: 9600
+// });
 
-// // Simulate Arduino telemetry
-// let timestamp = 0;
+// const PACKET_SIZE = 20;
 
-// setInterval(() => {
-//   timestamp += 500; // Arduino currently sends every ~500ms
+// console.log("Listening for Arduino on " + ARDUINO_PORT + " ...");
 
-//   const telemetryData = {
-//     timestamp: timestamp,
-//     voltage: 48 + Math.random() * 2,
-//     current: 10 + Math.random() * 5,
-//     temperature: 25 + Math.random() * 3,
-//     acceleration: Math.random() * 2,
-//     velocity: 5 + Math.random() * 2
-//   };
+// let buffer = Buffer.alloc(0);
 
-//   io.emit('telemetry', telemetryData);
-// }, 500);
+// port.on('data', (chunk) => {
+//   // Add newly received bytes to our buffer
+//   buffer = Buffer.concat([buffer, chunk]);
+
+//   // Process complete packets
+//   while (buffer.length >= PACKET_SIZE) {
+//     const packet = buffer.subarray(0, PACKET_SIZE);
+//     buffer = buffer.subarray(PACKET_SIZE);
+
+//     const telemetryData = {
+//       timestamp: packet.readUInt32LE(0),
+//       voltage: packet.readFloatLE(4),
+//       current: packet.readFloatLE(8),
+//       temperature: packet.readFloatLE(12),
+//       acceleration: packet.readFloatLE(16),
+//       velocity: 0
+//     };
+
+//     io.emit('telemetry', telemetryData);
+//   }
+// });
+
+// port.on('error', (err) => {
+//   console.error('Serial Port Error: ', err.message);
+// });
+
+// FAKE TELEMETRY FOR TESTING
+
+const { Server } = require('socket.io');
+
+const io = new Server(3001, {
+  cors: { origin: '*' }
+});
+
+console.log("Fake telemetry server running on port 3001");
+
+// Simulate Arduino telemetry
+let timestamp = 0;
+
+setInterval(() => {
+  timestamp += 500; // Arduino currently sends every ~500ms
+
+  const telemetryData = {
+    timestamp: timestamp,
+    voltage: 48 + Math.random() * 2,
+    current: 10 + Math.random() * 5,
+    temperature: 25 + Math.random() * 3,
+    acceleration: Math.random() * 2,
+    velocity: 5 + Math.random() * 2
+  };
+
+  io.emit('telemetry', telemetryData);
+}, 500);
