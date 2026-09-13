@@ -1,40 +1,41 @@
-// server.js
 const { SerialPort } = require('serialport');
-const { ReadlineParser } = require('@serialport/parser-readline');
 const { Server } = require('socket.io');
 
-// NOTE: Change '/dev/ttyACM0' to your actual Pi USB port (could be '/dev/ttyUSB0')
-// Run `ls /dev/tty*` in your terminal to find the correct port if needed.
-const ARDUINO_PORT = "/dev/tty.usbmodem2101"
+const ARDUINO_PORT = "/dev/tty.usbmodem2101";
 
-// 1. Setup WebSocket Server on port 3001
 const io = new Server(3001, {
-  cors: { origin: '*' } // Allow your Next.js app to connect
+  cors: { origin: '*' }
 });
 
-// 2. Connect to the Arduino
-const port = new SerialPort({ path: ARDUINO_PORT, baudRate: 9600 });
-const parser = port.pipe(new ReadlineParser({ delimiter: '\n' }));
+const port = new SerialPort({
+  path: ARDUINO_PORT,
+  baudRate: 9600
+});
+
+const PACKET_SIZE = 20;
 
 console.log("Listening for Arduino on " + ARDUINO_PORT + " ...");
 
-// 3. Read data and broadcast it to React
-parser.on('data', (line) => {
-  // Line format from Arduino: "v_avg#i_avg#temp_avg#a_avg"
-  const parts = line.trim().split('#');
-  
-  if (parts.length === 4) {
+let buffer = Buffer.alloc(0);
+
+port.on('data', (chunk) => {
+  // Add newly received bytes to our buffer
+  buffer = Buffer.concat([buffer, chunk]);
+
+  // Process complete packets
+  while (buffer.length >= PACKET_SIZE) {
+    const packet = buffer.subarray(0, PACKET_SIZE);
+    buffer = buffer.subarray(PACKET_SIZE);
+
     const telemetryData = {
-      voltage: parseFloat(parts[0]),
-      current: parseFloat(parts[1]),
-      temperature: parseFloat(parts[2]),
-      acceleration: parseFloat(parts[3]),
-      // Note: Velocity requires integration over time or a GPS module.
-      // We will leave it at 0 for now until you add a speed sensor.
-      velocity: 0 
+      timestamp: packet.readUInt32LE(0),
+      voltage: packet.readFloatLE(4),
+      current: packet.readFloatLE(8),
+      temperature: packet.readFloatLE(12),
+      acceleration: packet.readFloatLE(16),
+      velocity: 0
     };
 
-    // Broadcast to the React app
     io.emit('telemetry', telemetryData);
   }
 });
@@ -42,3 +43,31 @@ parser.on('data', (line) => {
 port.on('error', (err) => {
   console.error('Serial Port Error: ', err.message);
 });
+
+// FAKE TELEMETRY FOR TESTING
+
+// const { Server } = require('socket.io');
+
+// const io = new Server(3001, {
+//   cors: { origin: '*' }
+// });
+
+// console.log("Fake telemetry server running on port 3001");
+
+// // Simulate Arduino telemetry
+// let timestamp = 0;
+
+// setInterval(() => {
+//   timestamp += 500; // Arduino currently sends every ~500ms
+
+//   const telemetryData = {
+//     timestamp: timestamp,
+//     voltage: 48 + Math.random() * 2,
+//     current: 10 + Math.random() * 5,
+//     temperature: 25 + Math.random() * 3,
+//     acceleration: Math.random() * 2,
+//     velocity: 5 + Math.random() * 2
+//   };
+
+//   io.emit('telemetry', telemetryData);
+// }, 500);

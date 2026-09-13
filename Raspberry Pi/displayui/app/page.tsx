@@ -5,6 +5,7 @@ import io from "socket.io-client";
 export default function Page() {
   // State to hold live Arduino data
   const [data, setData] = useState({
+    timestamp: 0,
     velocity: 0,
     acceleration: 0,
     temperature: 0,
@@ -34,9 +35,16 @@ export default function Page() {
     { title: "VOLTAGE", value: data.voltage.toFixed(2), unit: "volts" },
   ];
 
+  const elapsedSeconds = Math.floor(data.timestamp / 1000);
+  const minutes = Math.floor(elapsedSeconds / 60);
+  const seconds = elapsedSeconds % 60;
+
   return ( 
     <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-pink-300 via-fuchsia-400 to-purple-500 flex flex-col items-center py-14 px-6">
       <Sparkles />
+      <div className="absolute top-6 right-8 z-20 text-white text-2xl font-bold drop-shadow-lg">
+        Uptime: {minutes}:{seconds.toString().padStart(2, "0")}
+      </div>
 
       {/* HEADER */}
       <div className="z-10 bg-gradient-to-r from-red-500 to-pink-600 border-[6px] border-red-900 rounded-3xl px-14 py-5 mb-16 shadow-2xl shadow-pink-600/50">
