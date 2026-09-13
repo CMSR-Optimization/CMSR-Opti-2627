@@ -54,6 +54,28 @@ const io = new Server(3001, {
 
 console.log("Fake telemetry server running on port 3001");
 
+const fs = require('fs');
+const path = require('path');
+
+const dataDir = './data';
+
+if (!fs.existsSync(dataDir)) {
+    fs.mkdirSync(dataDir);
+}
+
+const filename = `fake_telemetry_${new Date()
+    .toISOString()
+    .replace(/[:.]/g, '-')}.csv`;
+
+const logFile = path.join(dataDir, filename);
+
+fs.writeFileSync(
+    logFile,
+    'timestamp,voltage,current,temperature,acceleration\n'
+);
+
+console.log(`Logging telemetry to ${logFile}`);
+
 // Simulate Arduino telemetry
 let timestamp = 0;
 
@@ -68,6 +90,15 @@ setInterval(() => {
     acceleration: Math.random() * 2,
     velocity: 5 + Math.random() * 2
   };
+
+  const line =
+    `${telemetryData.timestamp},` +
+    `${telemetryData.voltage},` +
+    `${telemetryData.current},` +
+    `${telemetryData.temperature},` +
+    `${telemetryData.acceleration}\n`;
+
+  fs.appendFileSync(logFile, line);
 
   io.emit('telemetry', telemetryData);
 }, 500);
