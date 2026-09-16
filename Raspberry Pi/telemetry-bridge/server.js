@@ -16,6 +16,28 @@
 
 // console.log("Listening for Arduino on " + ARDUINO_PORT + " ...");
 
+// const fs = require('fs');
+// const path = require('path');
+
+// const dataDir = './data';
+
+// if (!fs.existsSync(dataDir)) {
+//     fs.mkdirSync(dataDir);
+// }
+
+// const filename = `telemetry_${new Date()
+//     .toISOString()
+//     .replace(/[:.]/g, '-')}.csv`;
+
+// const logFile = path.join(dataDir, filename);
+
+// fs.writeFileSync(
+//     logFile,
+//     'timestamp,voltage,current,temperature,acceleration\n'
+// );
+
+// console.log(`Logging telemetry to ${logFile}`);
+
 // let buffer = Buffer.alloc(0);
 
 // port.on('data', (chunk) => {
@@ -35,6 +57,15 @@
 //       acceleration: packet.readFloatLE(16),
 //       velocity: 0
 //     };
+
+//     const line =
+//       `${telemetryData.timestamp},` +
+//       `${telemetryData.voltage},` +
+//       `${telemetryData.current},` +
+//       `${telemetryData.temperature},` +
+//       `${telemetryData.acceleration}\n`;
+
+//     fs.appendFileSync(logFile, line);
 
 //     io.emit('telemetry', telemetryData);
 //   }
