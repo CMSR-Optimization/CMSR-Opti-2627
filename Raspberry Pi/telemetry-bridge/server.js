@@ -1,7 +1,7 @@
 const { SerialPort } = require('serialport');
 const { Server } = require('socket.io');
 
-const ARDUINO_PORT = "/dev/tty.usbmodem2101";
+const ARDUINO_PORT = "/dev/ttyACM0";
 
 const io = new Server(3001, {
   cors: { origin: '*' }
