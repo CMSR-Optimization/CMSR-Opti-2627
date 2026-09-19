@@ -9,6 +9,9 @@ struct TelemetryPacket {
   float current;
   float temperature;
   float acceleration;
+  float accelX;
+  float accelY;
+  float accelZ;
 };
 
 // config constants
@@ -30,6 +33,9 @@ float voltageSamples[NUM_SAMPLES] = {0};
 float currentSamples[NUM_SAMPLES] = {0};
 float tempSamples[NUM_SAMPLES] = {0};
 float accelSamples[NUM_SAMPLES] = {0};
+float accelXSamples[NUM_SAMPLES] = {0};
+float accelYSamples[NUM_SAMPLES] = {0};
+float accelZSamples[NUM_SAMPLES] = {0};
 
 void setup() {
   Serial.begin(9600);
@@ -48,6 +54,9 @@ void loop() {
   voltageSamples[sampleIndex] = readVoltage();
   currentSamples[sampleIndex] = readCurrent();
   tempSamples[sampleIndex] = readTemperature();
+  accelXSamples[sampleIndex] = readAccelX();
+  accelYSamples[sampleIndex] = readAccelY();
+  accelZSamples[sampleIndex] = readAccelZ();
   accelSamples[sampleIndex] = readAcceleration();
 
   sampleIndex++;
@@ -87,6 +96,18 @@ float readTemperature() {
   return (float)bno.getTemp();
 }
 
+float readAccelX() {
+  return bno.getVector(Adafruit_BNO055::VECTOR_LINEARACCEL).x();
+}
+
+float readAccelY() {
+  return bno.getVector(Adafruit_BNO055::VECTOR_LINEARACCEL).y();
+}
+
+float readAccelZ() {
+  return bno.getVector(Adafruit_BNO055::VECTOR_LINEARACCEL).z();
+}
+
 float readAcceleration() {
   imu::Vector<3> accel = bno.getVector(Adafruit_BNO055::VECTOR_LINEARACCEL);
   // calculate magnitude of the 3D acceleration vector
@@ -95,13 +116,16 @@ float readAcceleration() {
 
 // calculate averages and transmit
 void transmitAveragedData() {
-  float vSum = 0, iSum = 0, tSum = 0, aSum = 0;
+  float vSum = 0, iSum = 0, tSum = 0, aSum = 0, axSum = 0, aySum = 0, azSum = 0;
 
   for (int i = 0; i < NUM_SAMPLES; i++) {
     vSum += voltageSamples[i];
     iSum += currentSamples[i];
     tSum += tempSamples[i];
     aSum += accelSamples[i];
+    axSum += accelXSamples[i];
+    aySum += accelYSamples[i];
+    azSum += accelZSamples[i];
   }
 
   TelemetryPacket packet;
@@ -111,6 +135,9 @@ void transmitAveragedData() {
   packet.current = iSum / NUM_SAMPLES;
   packet.temperature = tSum / NUM_SAMPLES;
   packet.acceleration = aSum / NUM_SAMPLES;
+  packet.accelX = axSum / NUM_SAMPLES;
+  packet.accelY = aySum / NUM_SAMPLES;
+  packet.accelZ = azSum / NUM_SAMPLES;
 
   Serial.write((uint8_t*)&packet, sizeof(packet));
 }

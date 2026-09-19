@@ -12,7 +12,7 @@ const port = new SerialPort({
   baudRate: 9600
 });
 
-const PACKET_SIZE = 20;
+const PACKET_SIZE = 32;
 
 console.log("Listening for Arduino on " + ARDUINO_PORT + " ...");
 
@@ -33,7 +33,7 @@ const logFile = path.join(dataDir, filename);
 
 fs.writeFileSync(
     logFile,
-    'timestamp,voltage,current,temperature,acceleration\n'
+    'timestamp,voltage,current,temperature,acceleration,accelX,accelY,accelZ\n'
 );
 
 console.log(`Logging telemetry to ${logFile}`);
@@ -55,6 +55,9 @@ port.on('data', (chunk) => {
       current: packet.readFloatLE(8),
       temperature: packet.readFloatLE(12),
       acceleration: packet.readFloatLE(16),
+      accelX: packet.readFloatLE(20),
+      accelY: packet.readFloatLE(24),
+      accelZ: packet.readFloatLE(28),
       velocity: 0
     };
 
@@ -63,7 +66,10 @@ port.on('data', (chunk) => {
       `${telemetryData.voltage},` +
       `${telemetryData.current},` +
       `${telemetryData.temperature},` +
-      `${telemetryData.acceleration}\n`;
+      `${telemetryData.acceleration},` +
+      `${telemetryData.accelX},` +
+      `${telemetryData.accelY},` +
+      `${telemetryData.accelZ}\n`;
 
     fs.appendFileSync(logFile, line);
 
