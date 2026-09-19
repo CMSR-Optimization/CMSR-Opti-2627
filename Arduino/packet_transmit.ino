@@ -9,7 +9,7 @@ struct TelemetryPacket {
   float current;
   float temperature;
   float acceleration;
-}
+};
 
 // config constants
 const int VOLTAGE_PIN = A1; 
