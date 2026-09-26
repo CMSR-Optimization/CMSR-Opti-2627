@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import image from "./image.svg";
 import rectangle18 from "./rectangle-18.svg";
@@ -59,12 +60,12 @@ export const Frame = () => {
       unit: "m/s",
       icon: vector2,
       position: { top: "134px", left: "63px" },
-      titleSize: "text-[50px]",
-      valueSize: "text-[85px]",
-      unitSize: "text-3xl",
+      titleSize: "text-[32px]",
+      valueSize: "text-[78px]",
+      unitSize: "text-2xl",
       titlePosition: { top: "156px", left: "87px" },
       valuePosition: { top: "213px", left: "135px" },
-      bgColor: "bg-[#f566d6]",
+      bgColor: "bg-[#151c24]",
     },
     {
       title: "ACCELERATION",
@@ -72,12 +73,12 @@ export const Frame = () => {
       unit: "m/s²",
       icon: vector7,
       position: { top: "134px", left: "429px" },
-      titleSize: "text-[35px]",
-      valueSize: "text-[85px]",
-      unitSize: "text-3xl",
+      titleSize: "text-[28px]",
+      valueSize: "text-[78px]",
+      unitSize: "text-2xl",
       titlePosition: { top: "165px", left: "445px" },
       valuePosition: { top: "213px", left: "500px" },
-      bgColor: "bg-[#f566d6]",
+      bgColor: "bg-[#151c24]",
     },
     {
       title: "TEMPERATURE",
@@ -85,216 +86,137 @@ export const Frame = () => {
       unit: "°C",
       icon: vector4,
       position: { top: "134px", left: "786px" },
-      titleSize: "text-[35px]",
-      valueSize: "text-[85px]",
-      unitSize: "text-3xl",
+      titleSize: "text-[28px]",
+      valueSize: "text-[78px]",
+      unitSize: "text-2xl",
       titlePosition: { top: "170px", left: "804px" },
       valuePosition: { top: "215px", left: "857px" },
-      bgColor: "bg-[#f566d6]",
+      bgColor: "bg-[#151c24]",
     },
     {
       title: "CURRENT",
       value: "0.0",
-      unit: "amps",
+      unit: "A",
       icon: vector3,
       position: { top: "404px", left: "229px" },
-      titleSize: "text-[50px]",
-      valueSize: "text-[85px]",
-      unitSize: "text-[32px]",
+      titleSize: "text-[32px]",
+      valueSize: "text-[78px]",
+      unitSize: "text-2xl",
       titlePosition: { top: "419px", left: "256px" },
       valuePosition: { top: "475px", left: "313px" },
-      bgColor: "bg-[#f566d6]",
+      bgColor: "bg-[#151c24]",
     },
     {
       title: "VOLTAGE",
       value: "0.0",
-      unit: "volts",
+      unit: "V",
       icon: vector6,
       position: { top: "404px", left: "634px" },
-      titleSize: "text-[50px]",
-      valueSize: "text-[85px]",
-      unitSize: "text-3xl",
+      titleSize: "text-[32px]",
+      valueSize: "text-[78px]",
+      unitSize: "text-2xl",
       titlePosition: { top: "417px", left: "666px" },
       valuePosition: { top: "479px", left: "714px" },
-      bgImage: rectangle18,
+      bgColor: "bg-[#151c24]",
     },
   ]);
 
-  const decorativeIcons: DecorativeIcon[] = [
-    {
-      src: vector2,
-      alt: "Vector",
-      style: { width: "3.74%", height: "4.87%", top: "25.07%", left: "27.02%" },
-    },
-    {
-      src: vector3,
-      alt: "Vector",
-      style: { width: "2.08%", height: "5.60%", top: "63.72%", left: "40.90%" },
-    },
-    {
-      src: vector4,
-      alt: "Vector",
-      style: { width: "2.99%", height: "7.08%", top: "24.34%", left: "87.53%" },
-    },
-    {
-      src: vector6,
-      alt: "Vector",
-      style: { width: "2.16%", height: "6.49%", top: "62.39%", left: "75.23%" },
-    },
-    {
-      src: vector7,
-      alt: "Vector",
-      style: { width: "2.83%", height: "3.24%", top: "25.96%", left: "58.52%" },
-    },
-    {
-      src: vector5,
-      alt: "Vector",
-      style: { width: "7.65%", height: "13.57%", top: "2.36%", left: "84.46%" },
-    },
-    {
-      src: vector8,
-      alt: "Vector",
-      style: { width: "7.65%", height: "13.57%", top: "2.36%", left: "4.82%" },
-    },
-    {
-      src: vector,
-      alt: "Vector",
-      style: {
-        width: "6.23%",
-        height: "11.06%",
-        top: "79.96%",
-        left: "85.89%",
-      },
-    },
-    {
-      src: vector13,
-      alt: "Vector",
-      style: { width: "5.32%", height: "10.42%", top: "4.90%", left: "22.79%" },
-    },
-    {
-      src: vector9,
-      alt: "Vector",
-      style: { width: "5.53%", height: "9.82%", top: "62.83%", left: "7.23%" },
-    },
-    {
-      src: image,
-      alt: "Vector",
-      style: { width: "5.26%", height: "9.33%", top: "3.98%", left: "67.41%" },
-    },
-    {
-      src: vector14,
-      alt: "Vector",
-      style: { width: "5.26%", height: "9.33%", top: "80.83%", left: "12.47%" },
-    },
-    {
-      src: vector10,
-      alt: "Vector",
-      style: {
-        width: "4.57%",
-        height: "11.06%",
-        top: "88.79%",
-        left: "46.97%",
-      },
-    },
-  ];
+  const decorativeIcons: DecorativeIcon[] = [];
 
   return (
-    <main className="w-full min-w-[1203px] h-[678px] relative" role="main">
+    <main
+      className="w-full min-w-[1203px] h-[678px] relative bg-[#0b1117] overflow-hidden"
+      role="main"
+    >
+      {/* Subtle engineering grid */}
       <div
-        className="absolute top-0 left-0 w-[1130px] h-[678px] bg-[#ffa9e2] aspect-[1.67]"
+        className="absolute inset-0 opacity-[0.08]"
+        style={{
+          backgroundImage:
+            "linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(90deg, #ffffff 1px, transparent 1px)",
+          backgroundSize: "40px 40px",
+        }}
         aria-hidden="true"
       />
 
-      <header className="absolute top-[22px] left-[400px] w-[376px] h-[78px] bg-[#cd4040] rounded-[20px] border-[5px] border-solid border-[#9d0707]">
-        <h1 className="absolute top-[11px] left-[29px] [font-family:'Istok_Web-Regular',Helvetica] font-normal text-white text-[40px] tracking-[0] leading-[normal]">
-          OPTIMISLAYTION
-        </h1>
+      {/* Header */}
+      <header className="absolute top-[22px] left-[63px] w-[1043px] h-[78px] bg-[#111a22] border border-[#34424f] border-l-[4px] border-l-[#4cc9f0]">
+        <div className="absolute top-[13px] left-[25px]">
+          <div className="text-[12px] font-mono tracking-[0.25em] text-[#71808d]">
+            CARNEGIE MELLON SOLAR RACING
+          </div>
+
+          <h1 className="mt-[3px] font-mono font-bold text-white text-[32px] tracking-[0.08em]">
+            CMSR // LIVE TELEMETRY
+          </h1>
+        </div>
+
+        <div className="absolute right-[25px] top-[27px] flex items-center gap-3">
+          <div className="w-[9px] h-[9px] rounded-full bg-[#4ade80]" />
+          <span className="font-mono text-[13px] tracking-[0.12em] text-[#4ade80]">
+            SYSTEM ONLINE
+          </span>
+        </div>
       </header>
 
+      {/* Metric Cards */}
       {metrics.map((metric, index) => (
         <section
           key={index}
-          className="absolute w-[322px] h-[237px] rounded-[25px]"
+          className="absolute w-[322px] h-[237px] bg-[#151c24] border border-[#34424f] border-t-[3px] border-t-[#4cc9f0]"
           style={{
             top: metric.position.top,
             left: metric.position.left,
-            ...(metric.bgColor && {
-              backgroundColor: metric.bgColor
-                .replace("bg-[", "")
-                .replace("]", ""),
-            }),
           }}
           aria-labelledby={`metric-title-${index}`}
         >
-          {metric.bgImage && (
-            <img
-              className="absolute top-0 left-0 w-full h-full"
-              alt=""
-              src={metric.bgImage}
-              aria-hidden="true"
-            />
-          )}
+          <div className="absolute top-[16px] left-[22px] text-[11px] font-mono tracking-[0.2em] text-[#687987]">
+            LIVE DATA
+          </div>
+
           <h2
             id={`metric-title-${index}`}
-            className={`absolute w-[265px] [font-family:'Itim-Regular',Helvetica] font-normal text-white ${metric.titleSize} tracking-[0] leading-[normal]`}
+            className={`absolute w-[265px] font-mono font-semibold text-[#aebbc6] ${metric.titleSize} tracking-[0.12em] leading-[normal]`}
             style={{
-              top: `calc(${metric.titlePosition.top} - ${metric.position.top})`,
+              top: `calc(${metric.titlePosition.top} - ${metric.position.top} + 5px)`,
               left: `calc(${metric.titlePosition.left} - ${metric.position.left})`,
             }}
           >
             {metric.title}
           </h2>
+
           <p
-            className={`absolute w-[179px] [font-family:'Pixelify_Sans-Bold',Helvetica] font-bold text-white ${metric.valueSize} text-center tracking-[0] leading-[normal]`}
+            className={`absolute w-[240px] font-mono font-bold text-white ${metric.valueSize} text-left tracking-[-0.04em] leading-[normal]`}
             style={{
-              top: `calc(${metric.valuePosition.top} - ${metric.position.top})`,
+              top: `calc(${metric.valuePosition.top} - ${metric.position.top} + 5px)`,
               left: `calc(${metric.valuePosition.left} - ${metric.position.left})`,
             }}
             aria-label={`${metric.title}: ${metric.value} ${metric.unit}`}
           >
-            <span className="[font-family:'Pixelify_Sans-Bold',Helvetica] font-bold text-white text-[85px] tracking-[0]">
-              {metric.value}
+            <span>{metric.value}</span>
+
+            <span
+              className={`ml-3 ${metric.unitSize} font-normal text-[#71808d] tracking-normal`}
+            >
+              {metric.unit}
             </span>
-            <span className="text-5xl">
-              {" "}
-              <br />
-            </span>
-            <span className={metric.unitSize}>{metric.unit}</span>
           </p>
+
+          {/* Bottom status line */}
+          <div className="absolute bottom-[17px] left-[22px] right-[22px] border-t border-[#293640] pt-[8px]">
+            <span className="font-mono text-[10px] tracking-[0.15em] text-[#536371]">
+              SENSOR ACTIVE
+            </span>
+          </div>
         </section>
       ))}
 
-      {decorativeIcons.map((icon, index) => (
-        <img
-          key={index}
-          className="absolute"
-          style={{
-            width: icon.style.width,
-            height: icon.style.height,
-            top: icon.style.top,
-            left: icon.style.left,
-          }}
-          alt={icon.alt}
-          src={icon.src}
-          aria-hidden="true"
-        />
-      ))}
-
-      <div
-        className="absolute w-[6.23%] h-[9.19%] top-[60.18%] left-[81.13%]"
-        aria-hidden="true"
-      >
-        <img
-          className="absolute w-[77.25%] h-full top-0 left-0"
-          alt="Vector"
-          src={vector11}
-        />
-        <img
-          className="absolute w-[38.23%] h-[42.01%] top-[14.93%] left-[61.77%]"
-          alt="Vector"
-          src={vector12}
-        />
+      {/* Footer */}
+      <div className="absolute bottom-[18px] left-[63px] right-[63px] flex justify-between font-mono text-[10px] tracking-[0.15em] text-[#536371]">
+        <span>TELEMETRY LINK: ACTIVE</span>
+        <span>CMSR-OPTIMIZATION</span>
       </div>
     </main>
   );
 };
+
