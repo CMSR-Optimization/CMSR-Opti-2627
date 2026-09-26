@@ -48,16 +48,16 @@ export default function LiveGraphs({ history }: { history: Telemetry[] }) {
   const metric = METRICS.find((m) => m.key === selected)!;
 
   return (
-    <div className="z-10 w-full max-w-7xl mt-14 bg-gradient-to-br from-fuchsia-500 to-pink-500 rounded-3xl p-8 shadow-2xl shadow-purple-900/40">
-      <div className="flex flex-wrap justify-center gap-3 mb-6">
+    <div className="relative z-10 w-full rounded-3xl border-2 border-green-300/50 bg-[#111a22] p-8 shadow-2xl shadow-black/70">
+      <div className="mb-6 flex flex-wrap gap-3">
         {METRICS.map((m) => (
           <button
             key={m.key}
             onClick={() => setSelected(m.key)}
-            className={`px-5 py-2 rounded-full font-semibold tracking-wider transition ${
+            className={`rounded-lg border px-4 py-2 font-mono text-sm tracking-wider transition ${
               m.key === selected
-                ? "bg-white text-fuchsia-600 shadow-lg"
-                : "bg-white/20 text-white hover:bg-white/30"
+                ? "border-green-300/50 bg-green-400/15 text-green-300"
+                : "border-[#2b3945] text-[#71808d] hover:border-[#34424f] hover:text-white"
             }`}
           >
             {m.label}
@@ -68,24 +68,26 @@ export default function LiveGraphs({ history }: { history: Telemetry[] }) {
       <div className="h-96">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={points} margin={{ top: 10, right: 20, bottom: 10, left: 10 }}>
-            <CartesianGrid stroke="rgba(255,255,255,0.2)" strokeDasharray="3 3" />
+            <CartesianGrid stroke="#2b3945" strokeDasharray="3 3" />
             <XAxis
               dataKey="timestamp"
               type="number"
               domain={["dataMin", "dataMax"]}
               tickFormatter={formatTime}
-              stroke="white"
+              stroke="#71808d"
+              tick={{ fontFamily: "var(--font-geist-mono)", fontSize: 12 }}
             />
             <YAxis
               domain={["auto", "auto"]}
-              stroke="white"
+              stroke="#71808d"
+              tick={{ fontFamily: "var(--font-geist-mono)", fontSize: 12 }}
               tickFormatter={(v: number) => v.toFixed(1)}
-              label={{ value: metric.unit, angle: -90, position: "insideLeft", fill: "white" }}
+              label={{ value: metric.unit, angle: -90, position: "insideLeft", fill: "#71808d" }}
             />
             <Line
               type="monotone"
               dataKey={selected}
-              stroke="white"
+              stroke="#4ade80"
               strokeWidth={2}
               dot={false}
               activeDot={false}
