@@ -5,7 +5,6 @@ import {
   Line,
   LineChart,
   ResponsiveContainer,
-  Tooltip,
   XAxis,
   YAxis,
 } from "recharts";
@@ -83,16 +82,13 @@ export default function LiveGraphs({ history }: { history: Telemetry[] }) {
               tickFormatter={(v: number) => v.toFixed(1)}
               label={{ value: metric.unit, angle: -90, position: "insideLeft", fill: "white" }}
             />
-            <Tooltip
-              labelFormatter={(ms) => formatTime(Number(ms))}
-              formatter={(v) => [`${Number(v).toFixed(2)} ${metric.unit}`, metric.label]}
-            />
             <Line
               type="monotone"
               dataKey={selected}
               stroke="white"
               strokeWidth={2}
               dot={false}
+              activeDot={false}
               isAnimationActive={false}
             />
           </LineChart>
