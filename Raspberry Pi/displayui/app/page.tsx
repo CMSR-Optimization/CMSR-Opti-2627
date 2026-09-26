@@ -1,10 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
 import io from "socket.io-client";
+import LiveGraphs, { Telemetry } from "./LiveGraphs";
 
 export default function Page() {
   // State to hold live Arduino data
-  const [data, setData] = useState({
+  const [data, setData] = useState<Telemetry>({
     timestamp: 0,
     velocity: 0,
     acceleration: 0,
@@ -12,14 +13,16 @@ export default function Page() {
     current: 0,
     voltage: 0,
   });
+  const [history, setHistory] = useState<Telemetry[]>([]);
 
   useEffect(() => {
     // Connect to the local Node.js bridge we just built
     const socket = io("http://localhost:3001");
 
     // Listen for the 'telemetry' event from the bridge
-    socket.on("telemetry", (incomingData) => {
+    socket.on("telemetry", (incomingData: Telemetry) => {
       setData(incomingData);
+      setHistory((h) => [...h, incomingData]);
     });
 
     return () => {
@@ -66,6 +69,8 @@ export default function Page() {
           <MetricCard key={index} metric={metric} />
         ))}
       </div>
+
+      <LiveGraphs history={history} />
     </div>
   );
 }
