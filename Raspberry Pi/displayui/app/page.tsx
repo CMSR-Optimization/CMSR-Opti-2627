@@ -4,22 +4,32 @@ import { useEffect, useState } from "react";
 import io from "socket.io-client";
 import Sparkles from "./assets/Sparkles";
 import MetricCard from "./assets/MetricCard";
+import logo from "./assets/logo.jpg"
 
-export default function Page() {
-  const [data, setData] = useState({
+let running = false;
+let defaultState = {
     timestamp: 0,
     velocity: 0,
     acceleration: 0,
     temperature: 0,
     current: 0,
     voltage: 0,
-  });
+  };
+
+export default function Page() {
+  const [data, setData] = useState(defaultState);
 
   useEffect(() => {
     const socket = io("http://localhost:3001");
 
     socket.on("telemetry", (incomingData) => {
+      running = true;
       setData(incomingData);
+    });
+
+    socket.on("disconnect", () => {
+      running = false;
+      setData(defaultState);
     });
 
     return () => {
@@ -46,18 +56,18 @@ export default function Page() {
     {
       title: "CURRENT",
       value: data.current.toFixed(2),
-      unit: "A",
+      unit: "Amps",
     },
     {
       title: "VOLTAGE",
       value: data.voltage.toFixed(2),
-      unit: "V",
+      unit: "Volts",
     },
 
     {
       title: "PLACEHOLDER",
       value: 1,
-      unit: "V",
+      unit: "Units",
     },
   ];
 
@@ -80,22 +90,30 @@ export default function Page() {
       {/* <Sparkles /> */}
 
       {/* HEADER */}
-      <header className="relative z-10 mb-10 flex items-end justify-between border-b border-[#2b3945] pb-5">
-        <div>
-          <div className="mb-1 font-mono text-xs tracking-[0.25em] text-[#71808d]">
-            CARNEGIE MELLON SOLAR RACING
-          </div>
+      <header className="relative z-10 mb-10 flex items-center justify-between border-b border-[#2b3945] pb-5">
+        <div className="flex items-center gap-5">
+          <img
+            src={logo.src}
+            alt="Carnegie Mellon Solar Racing"
+            className="h-16 w-16 rounded-xl object-cover border border-[#34424f]"
+          />
 
-          <h1 className="font-mono text-4xl font-bold tracking-[0.08em]">
-            CMSR // LIVE TELEMETRY
-          </h1>
+          <div>
+            <div className="mb-1 font-mono text-xs tracking-[0.25em] text-[#71808d]">
+              CARNEGIE MELLON SOLAR RACING
+            </div>
+
+            <h1 className="font-mono text-4xl font-bold tracking-[0.08em]">
+              CMSR // LIVE TELEMETRY
+            </h1>
+          </div>
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="h-2.5 w-2.5 rounded-full bg-green-400" />
+          <div className={`h-2.5 w-2.5 rounded-full ${running ? "bg-green-400" : "bg-red-400"}`} />
 
-          <span className="font-mono text-sm tracking-wider text-green-400">
-            SYSTEM ONLINE
+          <span className={`font-mono text-sm tracking-wider ${running ? "text-green-400" : "text-red-400"}`} >
+            {running ? "SYSTEM ONLINE" : "SYSTEM OFFLINE"}
           </span>
 
           <span className="ml-6 font-mono text-sm text-[#71808d]">
@@ -120,7 +138,7 @@ export default function Page() {
 
       {/* FOOTER */}
       <footer className="relative z-10 mt-8 flex justify-between border-t border-[#2b3945] pt-4 font-mono text-xs tracking-wider text-[#536371]">
-        <span>TELEMETRY LINK: ACTIVE</span>
+        <span>TELEMETRY LINK: {running? "ACTIVE" : "INACTIVE"}</span>
         <span>CMSR OPTIMIZATION</span>
       </footer>
     </main>
