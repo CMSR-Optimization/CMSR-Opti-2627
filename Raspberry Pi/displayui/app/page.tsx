@@ -7,7 +7,6 @@ import MetricCard from "./assets/MetricCard";
 import logo from "./assets/logo.jpg"
 import LiveGraphs, { Telemetry } from "./LiveGraphs";
 
-let running = false;
 let defaultState: Telemetry = {
     timestamp: 0,
     velocity: 0,
@@ -18,6 +17,7 @@ let defaultState: Telemetry = {
   };
 
 export default function Page() {
+  const [running, setRunning] = useState(false);
   const [data, setData] = useState(defaultState);
   const [history, setHistory] = useState<Telemetry[]>([]);
 
@@ -25,14 +25,15 @@ export default function Page() {
     const socket = io("http://localhost:3001");
 
     socket.on("telemetry", (incomingData: Telemetry) => {
-      running = true;
+      setRunning(true);
       setData(incomingData);
       setHistory((h) => [...h, incomingData]);
     });
 
     socket.on("disconnect", () => {
-      running = false;
+      setRunning(false);
       setData(defaultState);
+      setHistory([]);
     });
 
     return () => {
