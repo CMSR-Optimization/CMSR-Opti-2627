@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import io from "socket.io-client";
 import Sparkles from "./assets/Sparkles";
 import MetricCard from "./assets/MetricCard";
+import LiveGraphs, { Telemetry } from "./assets/LiveGraphs";
 import logo from "./assets/logo.jpg"
-import LiveGraphs, { Telemetry } from "./LiveGraphs";
 
 let defaultState: Telemetry = {
     timestamp: 0,
@@ -16,10 +16,22 @@ let defaultState: Telemetry = {
     voltage: 0,
   };
 
+type MetricKey = Exclude<keyof Telemetry, "timestamp">;
+
+const METRICS: { key: MetricKey; label: string; unit: string }[] = [
+  { key: "velocity", label: "VELOCITY", unit: "m/s" },
+  { key: "acceleration", label: "ACCELERATION", unit: "m/s²" },
+  { key: "temperature", label: "TEMPERATURE", unit: "°C" },
+  { key: "current", label: "CURRENT", unit: "amps" },
+  { key: "voltage", label: "VOLTAGE", unit: "volts" },
+  { key: "placeholder", label: "PLACEHOLER", unit: "units" }
+];
+
 export default function Page() {
   const [running, setRunning] = useState(false);
   const [data, setData] = useState(defaultState);
   const [history, setHistory] = useState<Telemetry[]>([]);
+  const [selected, setSelected] = useState<MetricKey>("voltage")
 
   useEffect(() => {
     const socket = io("http://localhost:3001");
@@ -43,32 +55,38 @@ export default function Page() {
 
   const metrics = [
     {
+      key: "velocity",
       title: "VELOCITY",
       value: data.velocity.toFixed(1),
       unit: "m/s",
     },
     {
+      key: "acceleration",
       title: "ACCELERATION",
       value: data.acceleration.toFixed(2),
       unit: "m/s²",
     },
     {
+      key: "temperature",
       title: "TEMPERATURE",
       value: data.temperature.toFixed(1),
       unit: "°C",
     },
     {
+      key: "current",
       title: "CURRENT",
       value: data.current.toFixed(2),
       unit: "Amps",
     },
     {
+      key: "voltage",
       title: "VOLTAGE",
       value: data.voltage.toFixed(2),
       unit: "Volts",
     },
 
     {
+      key: "placeholder",
       title: "PLACEHOLDER",
       value: 1,
       unit: "Units",
@@ -129,18 +147,18 @@ export default function Page() {
       {/* TOP ROW */}
       <div className="relative z-10 mb-6 grid w-full grid-cols-1 gap-6 md:grid-cols-3">
         {metrics.slice(0, 3).map((metric, index) => (
-          <MetricCard key={index} metric={metric} />
+          <MetricCard key={index} metric={metric} onClick={() => setSelected(metric.key)} selected={selected} />
         ))}
       </div>
 
       {/* BOTTOM ROW */}
       <div className="relative z-10 mb-6 grid w-full grid-cols-1 gap-6 md:grid-cols-3">
         {metrics.slice(3).map((metric, index) => (
-          <MetricCard key={index} metric={metric} />
+          <MetricCard key={index} metric={metric} onClick={() => setSelected(metric.key)} selected={selected} />
         ))}
       </div>
 
-      <LiveGraphs history={history} />
+      <LiveGraphs history={history} selected = {selected} setSelected={setSelected} />
 
       {/* FOOTER */}
       <footer className="relative z-10 mt-8 flex justify-between border-t border-[#2b3945] pt-4 font-mono text-xs tracking-wider text-[#536371]">

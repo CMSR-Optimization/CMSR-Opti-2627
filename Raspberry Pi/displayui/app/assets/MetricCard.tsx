@@ -1,7 +1,28 @@
-export function MetricCard({ metric }) {
+type MetricKey = "velocity" | "acceleration" | "temperature" | "current" | "voltage" | "placeholder";
+
+type Metric = {
+  key: MetricKey;
+  title: string;
+  value: number;
+  unit: string;
+};
+
+type MetricCardProps = {
+  metric: Metric;
+  onClick: () => void;
+  selected: boolean;
+};
+
+export function MetricCard({ metric, onClick, selected }: MetricCardProps) {
   return (
-    <div className="relative bg-gradient-to-br from-green-700 to-lime-950 rounded-3xl p-10 flex flex-col items-center justify-center shadow-2xl shadow-black/70 min-h-[260px] border-2 border-green-300/50 transition duration-500 hover:scale-105">
-      
+    <div
+      onClick={onClick}
+      className={`relative bg-gradient-to-br from-green-700 to-lime-950 rounded-3xl p-10 flex flex-col items-center justify-center shadow-2xl shadow-black/70 min-h-[260px] border-2 transition duration-500 hover:scale-105 cursor-pointer ${
+        selected
+          ? "border-green-300"
+          : "border-green-300/50"
+      }`}
+    >
       <div className="absolute inset-0 rounded-3xl bg-white opacity-5 pointer-events-none" />
 
       {/* Title */}

@@ -1,13 +1,6 @@
 "use client";
 import { useMemo, useState } from "react";
-import {
-  CartesianGrid,
-  Line,
-  LineChart,
-  ResponsiveContainer,
-  XAxis,
-  YAxis,
-} from "recharts";
+import { CartesianGrid, Line, LineChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 
 export type Telemetry = {
   timestamp: number;
@@ -16,9 +9,10 @@ export type Telemetry = {
   temperature: number;
   current: number;
   voltage: number;
+  placeholder: number;
 };
 
-type MetricKey = Exclude<keyof Telemetry, "timestamp">;
+type MetricKey = "velocity" | "acceleration" | "temperature" | "current" | "voltage" | "placeholder";
 
 const METRICS: { key: MetricKey; label: string; unit: string }[] = [
   { key: "velocity", label: "VELOCITY", unit: "m/s" },
@@ -26,7 +20,14 @@ const METRICS: { key: MetricKey; label: string; unit: string }[] = [
   { key: "temperature", label: "TEMPERATURE", unit: "°C" },
   { key: "current", label: "CURRENT", unit: "amps" },
   { key: "voltage", label: "VOLTAGE", unit: "volts" },
+  { key: "placeholder", label: "PLACEHOLDER", unit: "units" }
 ];
+
+type LiveGraphsProps = {
+  history: Telemetry[];
+  selected: MetricKey;
+  setSelected: React.Dispatch<React.SetStateAction<MetricKey>>;
+};
 
 // SVG rendering slows down past a few thousand points
 const MAX_RENDER = 500;
@@ -42,8 +43,7 @@ function formatTime(ms: number) {
   return `${Math.floor(s / 60)}:${(s % 60).toString().padStart(2, "0")}`;
 }
 
-export default function LiveGraphs({ history }: { history: Telemetry[] }) {
-  const [selected, setSelected] = useState<MetricKey>("voltage");
+export default function LiveGraphs({history, selected, setSelected} : LiveGraphsProps) {
   const points = useMemo(() => downsample(history), [history]);
   const metric = METRICS.find((m) => m.key === selected)!;
 

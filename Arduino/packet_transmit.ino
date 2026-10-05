@@ -4,6 +4,7 @@
 #include <utility/imumaths.h>
 
 struct TelemetryPacket {
+  uint32_t packetNumber;
   uint32_t timestamp;
   float voltage;
   float current;
@@ -54,7 +55,9 @@ void loop() {
 
   // process and transmit when the buffer is full (every 10 samples)
   if (sampleIndex >= NUM_SAMPLES) {
-    transmitAveragedData();
+    TelemetryPacket packet;
+    packet.packetNumber++;
+    transmitAveragedData(packet);
     sampleIndex = 0;
   }
 
@@ -94,7 +97,7 @@ float readAcceleration() {
 }
 
 // calculate averages and transmit
-void transmitAveragedData() {
+void transmitAveragedData(TelemetryPacket packet) {
   float vSum = 0, iSum = 0, tSum = 0, aSum = 0;
 
   for (int i = 0; i < NUM_SAMPLES; i++) {
@@ -103,8 +106,6 @@ void transmitAveragedData() {
     tSum += tempSamples[i];
     aSum += accelSamples[i];
   }
-
-  TelemetryPacket packet;
 
   packet.timestamp = millis();
   packet.voltage = vSum / NUM_SAMPLES;
