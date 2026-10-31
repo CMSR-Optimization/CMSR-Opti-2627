@@ -1,5 +1,6 @@
 const { SerialPort } = require('serialport');
 const { Server } = require('socket.io');
+const { gpsData } = require('./gps');
 
 const ARDUINO_PORT = "/dev/ttyACM0";
 
@@ -43,6 +44,8 @@ let buffer = Buffer.alloc(0);
 port.on('data', (chunk) => {
   // Add newly received bytes to our buffer
   buffer = Buffer.concat([buffer, chunk]);
+  console.log(gpsData.latitude);
+  console.log(gpsData.longitude);
 
   // Process complete packets
   while (buffer.length >= PACKET_SIZE) {
