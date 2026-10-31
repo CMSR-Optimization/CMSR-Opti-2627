@@ -15,7 +15,9 @@ const client = net.createConnection({
   console.log('Connected to gpsd');
 
   // Request JSON-formatted GPS reports.
-  client.write('?WATCH={"enable":true,"json":true}\n');
+  setTimeout(() => {
+    client.write('?WATCH={"enable":true,"json":true}\n');
+  });
 });
 
 let buffer = '';
