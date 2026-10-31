@@ -47,6 +47,10 @@ client.on('data', (chunk) => {
     gpsData.longitude = report.lon ?? null;
     gpsData.altitude = report.alt ?? null;
 
+    console.log(gpsData.latitude);
+    console.log(gpsData.longitude);
+    console.log(gpsData.altitude);
+
     // gpsd reports speed in meters per second.
     // Convert to mph to match your cgps display.
     gpsData.velocity = (report.speed ?? 0) * 2.23694;
