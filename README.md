@@ -75,13 +75,13 @@ See [`Arduino/README.md`](Arduino/README.md) for more information.
 
 ### Raspberry Pi
 
-The `Raspberry Pi/` directory contains the onboard computing software.
+The `Raspberry_Pi/` directory contains the onboard computing software.
 
 It is divided into two primary components:
 
 #### Telemetry Bridge
 
-`Raspberry Pi/telemetry-bridge/` contains the Node.js backend responsible for communicating with the Arduino and distributing telemetry to connected applications.
+`Raspberry_Pi/telemetry-bridge/` contains the Node.js backend responsible for communicating with the Arduino and distributing telemetry to connected applications.
 
 The bridge:
 
@@ -95,13 +95,13 @@ The bridge runs on **port 3001**.
 
 #### Display UI
 
-`Raspberry Pi/displayui/` contains the Next.js/React application used for the driver's telemetry display.
+`Raspberry_Pi/displayui/` contains the Next.js/React application used for the driver's telemetry display.
 
 The dashboard receives live telemetry from the bridge and displays vehicle measurements in real time.
 
 The development server runs on **port 3000**.
 
-See [`Raspberry Pi/README.md`](Raspberry%20Pi/README.md) for the complete onboard system documentation.
+See [`Raspberry_Pi/README.md`](Raspberry_Pi/README.md) for the complete onboard system documentation.
 
 ## Getting Started
 
@@ -116,7 +116,7 @@ Connect the required sensors according to the hardware wiring configuration.
 From the Raspberry Pi:
 
 ```bash
-cd "Raspberry Pi/telemetry-bridge"
+cd "Raspberry_Pi/telemetry-bridge"
 npm install
 node server.js
 ```
@@ -128,7 +128,7 @@ The bridge will connect to the configured serial port and begin receiving teleme
 In a second terminal:
 
 ```bash
-cd "Raspberry Pi/displayui"
+cd "Raspberry_Pi/displayui"
 npm install
 npm run dev
 ```

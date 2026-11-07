@@ -64,7 +64,7 @@ The Next.js development server runs on **port 3000**.
 ### Telemetry Bridge
 
 ```bash
-cd "Raspberry Pi/telemetry-bridge"
+cd "Raspberry_Pi/telemetry-bridge"
 npm install
 node server.js
 ```
@@ -74,7 +74,7 @@ node server.js
 In a second terminal:
 
 ```bash
-cd "Raspberry Pi/displayui"
+cd "Raspberry_Pi/displayui"
 npm install
 npm run dev
 ```
