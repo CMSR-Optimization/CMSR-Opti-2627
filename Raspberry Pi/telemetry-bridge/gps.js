@@ -11,7 +11,7 @@ const gpsData = {
 };
 
 const port = new SerialPort({
-  path: 'COM7',
+  path: '/dev/serial/by-id/usb-u-blox_AG_-_www.u-blox.com_u-blox_7_-_GPS_GNSS_Receiver-if00',
   baudRate: 9600
 });
 
