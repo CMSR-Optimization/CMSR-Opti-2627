@@ -35,7 +35,7 @@ Arduino
 
 ## Communication
 
-Telemetry is currently transmitted from the Arduino to the Raspberry Pi over **USB serial at 9600 baud**.
+Telemetry is currently transmitted the Arduino to Raspberry Pi over **USB serial at 9600 baud**.
 
 The transmitted measurements contain:
 
