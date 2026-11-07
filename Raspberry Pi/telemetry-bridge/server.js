@@ -1,5 +1,6 @@
 // const { SerialPort } = require('serialport');
 // const { Server } = require('socket.io');
+// const { gpsData } = require('./gps');
 
 // const ARDUINO_PORT = "/dev/ttyACM0";
 
@@ -55,7 +56,11 @@
 //       current: packet.readFloatLE(8),
 //       temperature: packet.readFloatLE(12),
 //       acceleration: packet.readFloatLE(16),
-//       velocity: 0
+//       latitude: gpsData.latitude,
+//       longitude: gpsData.longitude,
+//       altitude: gpsData.altitude,
+//       velocity: gpsData.velocity,
+//       gpsFix: gpsData.fix
 //     };
 
 //     const line =
@@ -77,13 +82,14 @@
 
 // FAKE TELEMETRY FOR TESTING
 
+
 const { Server } = require('socket.io');
+const { gpsData } = require('./gps');
 
 const io = new Server(3001, {
   cors: { origin: '*' }
 });
 
-// TODO: add the following section to the actual telemetry code
 console.log("Fake telemetry server running on port 3001");
 
 const fs = require('fs');
@@ -92,18 +98,18 @@ const path = require('path');
 const dataDir = './data';
 
 if (!fs.existsSync(dataDir)) {
-    fs.mkdirSync(dataDir);
+  fs.mkdirSync(dataDir);
 }
 
 const filename = `fake_telemetry_${new Date()
-    .toISOString()
-    .replace(/[:.]/g, '-')}.csv`;
+  .toISOString()
+  .replace(/[:.]/g, '-')}.csv`;
 
 const logFile = path.join(dataDir, filename);
 
 fs.writeFileSync(
-    logFile,
-    'timestamp,voltage,current,temperature,acceleration\n'
+  logFile,
+  'timestamp,voltage,current,temperature,acceleration,latitude,longitude,altitude,velocity,fix\n'
 );
 
 console.log(`Logging telemetry to ${logFile}`);
@@ -112,7 +118,7 @@ console.log(`Logging telemetry to ${logFile}`);
 let timestamp = 0;
 
 setInterval(() => {
-  timestamp += 500; // Arduino currently sends every ~500ms
+  timestamp += 500;
 
   const telemetryData = {
     timestamp: timestamp,
@@ -120,7 +126,13 @@ setInterval(() => {
     current: 10 + Math.random() * 5,
     temperature: 25 + Math.random() * 3,
     acceleration: Math.random() * 2,
-    velocity: 5 + Math.random() * 2
+
+    // GPS data
+    latitude: gpsData.latitude,
+    longitude: gpsData.longitude,
+    altitude: gpsData.altitude,
+    velocity: gpsData.velocity,
+    fix: gpsData.fix
   };
 
   const line =
@@ -128,7 +140,12 @@ setInterval(() => {
     `${telemetryData.voltage},` +
     `${telemetryData.current},` +
     `${telemetryData.temperature},` +
-    `${telemetryData.acceleration}\n`;
+    `${telemetryData.acceleration},` +
+    `${telemetryData.latitude},` +
+    `${telemetryData.longitude},` +
+    `${telemetryData.altitude},` +
+    `${telemetryData.velocity},` +
+    `${telemetryData.fix}\n`;
 
   fs.appendFileSync(logFile, line);
 

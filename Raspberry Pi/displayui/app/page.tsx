@@ -9,23 +9,16 @@ import logo from "./assets/logo.jpg"
 
 let defaultState: Telemetry = {
     timestamp: 0,
-    velocity: 0,
     acceleration: 0,
     temperature: 0,
     current: 0,
     voltage: 0,
+    latitude: null,
+    velocity: 0,
+    longitude: null,
+    altitude: null,
+    fix: false
   };
-
-type MetricKey = Exclude<keyof Telemetry, "timestamp">;
-
-const METRICS: { key: MetricKey; label: string; unit: string }[] = [
-  { key: "velocity", label: "VELOCITY", unit: "m/s" },
-  { key: "acceleration", label: "ACCELERATION", unit: "m/s²" },
-  { key: "temperature", label: "TEMPERATURE", unit: "°C" },
-  { key: "current", label: "CURRENT", unit: "amps" },
-  { key: "voltage", label: "VOLTAGE", unit: "volts" },
-  { key: "placeholder", label: "PLACEHOLER", unit: "units" }
-];
 
 export default function Page() {
   const [running, setRunning] = useState(false);
@@ -54,12 +47,28 @@ export default function Page() {
   }, []);
 
   const metrics = [
-    {
-      key: "velocity",
-      title: "VELOCITY",
-      value: data.velocity.toFixed(1),
-      unit: "m/s",
-    },
+  ...(data.fix ? [
+      {
+        title: "VELOCITY",
+        value: data.velocity.toFixed(1),
+        unit: "mph",
+      },
+      {
+        title: "LATITUDE",
+        value: data.latitude.toFixed(6),
+        unit: "°",
+      },
+      {
+        title: "LONGITUDE",
+        value: data.longitude.toFixed(6),
+        unit: "°",
+      },
+      {
+        title: "ALTITUDE",
+        value: data.altitude.toFixed(1),
+        unit: "m",
+      },
+    ] : []),
     {
       key: "acceleration",
       title: "ACCELERATION",
@@ -84,14 +93,9 @@ export default function Page() {
       value: data.voltage.toFixed(2),
       unit: "Volts",
     },
-
-    {
-      key: "placeholder",
-      title: "PLACEHOLDER",
-      value: 1,
-      unit: "Units",
-    },
   ];
+
+
 
   const elapsedSeconds = Math.floor(data.timestamp / 1000);
   const minutes = Math.floor(elapsedSeconds / 60);
@@ -144,17 +148,10 @@ export default function Page() {
         </div>
       </header>
 
-      {/* TOP ROW */}
-      <div className="relative z-10 mb-6 grid w-full grid-cols-1 gap-6 md:grid-cols-3">
-        {metrics.slice(0, 3).map((metric, index) => (
-          <MetricCard key={index} metric={metric} onClick={() => setSelected(metric.key)} selected={selected} />
-        ))}
-      </div>
-
-      {/* BOTTOM ROW */}
-      <div className="relative z-10 mb-6 grid w-full grid-cols-1 gap-6 md:grid-cols-3">
-        {metrics.slice(3).map((metric, index) => (
-          <MetricCard key={index} metric={metric} onClick={() => setSelected(metric.key)} selected={selected} />
+      {/* METRIC CARDS */}
+      <div className="relative z-10 mb-6 grid w-full grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+        {metrics.map((metric, index) => (
+          <MetricCard key={metric.title} metric={metric} />
         ))}
       </div>
 
