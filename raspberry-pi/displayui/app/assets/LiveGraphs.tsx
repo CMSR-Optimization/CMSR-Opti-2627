@@ -9,18 +9,16 @@ export type Telemetry = {
   temperature: number;
   current: number;
   voltage: number;
-  placeholder: number;
 };
 
-type MetricKey = "velocity" | "acceleration" | "temperature" | "current" | "voltage" | "placeholder";
+type MetricKey = "velocity" | "acceleration" | "temperature" | "current" | "voltage";
 
 const METRICS: { key: MetricKey; label: string; unit: string }[] = [
   { key: "velocity", label: "VELOCITY", unit: "m/s" },
   { key: "acceleration", label: "ACCELERATION", unit: "m/s²" },
   { key: "temperature", label: "TEMPERATURE", unit: "°C" },
   { key: "current", label: "CURRENT", unit: "amps" },
-  { key: "voltage", label: "VOLTAGE", unit: "volts" },
-  { key: "placeholder", label: "PLACEHOLDER", unit: "units" }
+  { key: "voltage", label: "VOLTAGE", unit: "volts" }
 ];
 
 type LiveGraphsProps = {

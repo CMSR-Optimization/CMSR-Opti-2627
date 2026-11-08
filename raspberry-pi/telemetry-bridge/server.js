@@ -34,7 +34,7 @@
 
 // fs.writeFileSync(
 //   logFile,
-//   'timestamp,voltage,current,temperature,acceleration\n'
+//   'timestamp,voltage,current,temperature,acceleration,latitude,longitude,altitude,velocity,fix\n'
 // );
 
 // console.log(`Logging telemetry to ${logFile}`);
@@ -68,7 +68,12 @@
 //       `${telemetryData.voltage},` +
 //       `${telemetryData.current},` +
 //       `${telemetryData.temperature},` +
-//       `${telemetryData.acceleration}\n`;
+//       `${telemetryData.acceleration}` +
+//       `${telemetryData.latitude},` +
+//       `${telemetryData.longitude},` +
+//       `${telemetryData.altitude},` +
+//       `${telemetryData.velocity},` +
+//       `${telemetryData.fix}\n`;
 
 //     fs.appendFileSync(logFile, line);
 
@@ -84,7 +89,6 @@
 
 
 const { Server } = require('socket.io');
-const { gpsData } = require('./gps');
 
 const io = new Server(3001, {
   cors: { origin: '*' }
@@ -128,11 +132,11 @@ setInterval(() => {
     acceleration: Math.random() * 2,
 
     // GPS data
-    latitude: gpsData.latitude,
-    longitude: gpsData.longitude,
-    altitude: gpsData.altitude,
-    velocity: gpsData.velocity,
-    fix: gpsData.fix
+    latitude: 48 + Math.random(),
+    longitude: -48 + Math.random(),
+    altitude: 5 + Math.random(),
+    velocity: 100 * Math.random(),
+    fix: 1
   };
 
   const line =

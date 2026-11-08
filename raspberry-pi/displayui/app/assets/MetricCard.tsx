@@ -33,12 +33,12 @@ export function MetricCard({ metric, onClick, selected }: MetricCardProps) {
       </div>
 
       {/* Value */}
-      <div className="relative text-white text-6xl md:text-7xl font-extrabold leading-none drop-shadow-[0_4px_4px_rgba(0,0,0,1)]">
+      <div className="relative text-white text-6xl md:text-5xl font-extrabold leading-none drop-shadow-[0_4px_4px_rgba(0,0,0,1)]">
         {metric.value}
       </div>
 
       {/* Unit */}
-      <div className="relative text-white text-2xl mt-3 font-semibold drop-shadow-[0_2px_2px_rgba(0,0,0,0.9)]">
+      <div className="relative text-white text-3xl mt-3 font-semibold drop-shadow-[0_2px_2px_rgba(0,0,0,0.9)]">
         {metric.unit}
       </div>
     </div>
