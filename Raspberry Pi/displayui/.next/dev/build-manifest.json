@@ -1,0 +1,25 @@
+{
+  "pages": {
+    "/_app": []
+  },
+  "devFiles": [],
+  "polyfillFiles": [
+    "static/chunks/80f7a_next_dist_build_polyfills_polyfill-nomodule.js"
+  ],
+  "lowPriorityFiles": [
+    "static/development/_ssgManifest.js",
+    "static/development/_buildManifest.js"
+  ],
+  "rootMainFiles": [
+    "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_dcfa3a81._.js",
+    "static/chunks/80f7a_next_dist_compiled_react-dom_4ed9861d._.js",
+    "static/chunks/80f7a_next_dist_compiled_react-server-dom-turbopack_7b074864._.js",
+    "static/chunks/80f7a_next_dist_compiled_next-devtools_index_c678a682.js",
+    "static/chunks/80f7a_next_dist_compiled_5175fcdb._.js",
+    "static/chunks/80f7a_next_dist_client_3b65c379._.js",
+    "static/chunks/80f7a_next_dist_7e5babf0._.js",
+    "static/chunks/80f7a_@swc_helpers_cjs_34fd7031._.js",
+    "static/chunks/OneDrive_Documents_GitHub_CMSR-Opti-2627_Raspberry Pi_displayui_a0ff3932._.js",
+    "static/chunks/9f58e_Documents_GitHub_CMSR-Opti-2627_Raspberry Pi_displayui_66de02af._.js"
+  ]
+}
