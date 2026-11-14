@@ -179,6 +179,4 @@ void transmitAveragedData(TelemetryPacket packet) {
   // Send the exact same telemetry packet over LoRa
   rf95.send((uint8_t*)&packet, sizeof(packet));
   rf95.waitPacketSent();
-
-  Serial.println("LoRa packet transmitted!");
 }
