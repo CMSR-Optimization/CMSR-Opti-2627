@@ -6,7 +6,7 @@
 #include <utility/imumaths.h>
 
 // ---------------- LoRa Configuration ----------------
-#define RFM95_CS 10
+#define RFM95_CS 53
 #define RFM95_RST 9
 #define RFM95_INT 2
 #define RF95_FREQ 915.0 // Change to 433.0 if using a 433MHz module
